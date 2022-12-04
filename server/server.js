@@ -8,9 +8,6 @@ const { ApolloServer } = require("apollo-server-express");
 const { typeDefs, resolvers } = require("./schemas");
 const { authMiddleware } = require("./utils/auth");
 
-const PORT = process.env.PORT || 3001;
-const app = express();
-
 // apollo middleware
 const startServer = async () => {
   const server = new ApolloServer({
@@ -20,10 +17,19 @@ const startServer = async () => {
   });
   await server.start();
   server.applyMiddleware({ app });
-  conseole.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+  console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
 };
 
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+//   context: authMiddleware,
+// });
+
 startServer();
+
+const PORT = process.env.PORT || 3001;
+const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -40,3 +46,19 @@ db.once("open", () => {
     console.log(`🌍 Now listening on http://localhost:${PORT}`)
   );
 });
+
+// const startApolloServer = async (typeDefs, resolvers) => {
+//   await server.start();
+//   server.applyMiddleware({ app });
+
+//   db.once("open", () => {
+//     app.listen(PORT, () => {
+//       console.log(
+//         `Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`
+//       );
+//       console.log(`🌍 Now listening on http://localhost:${PORT}`);
+//     });
+//   });
+// };
+
+// startApolloServer(typeDefs, resolvers);
