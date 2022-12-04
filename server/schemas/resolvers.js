@@ -23,9 +23,9 @@ const resolvers = {
       if (!user) {
         throw new AuthenticationError("This user is invalid");
       }
-      const corrrectPassword = await User.isCorrectPassword(correctPW);
+      const correctPw = await user.isCorrectPassword(password);
       // check to see if this is the correct password
-      if (!corrrectPassword) {
+      if (!correctPw) {
         throw new AuthenticationError("This password is incorrect");
       }
 
