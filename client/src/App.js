@@ -34,15 +34,12 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <div className="flex-column justify-flex-start min-vh-100">
+        <div>
           <Navbar />
           <div>
             <Routes>
               <Route path="/" element={<SearchBooks />} />
               <Route path="/saved" element={<SavedBooks />} />
-              <Route
-                render={() => <h1 className="display-2">Wrong page!</h1>}
-              />
             </Routes>
           </div>
         </div>

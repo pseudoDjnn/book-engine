@@ -4,9 +4,9 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    me: async (_, args, context) => {
+    me: async (parent, args, context) => {
       if (context.user) {
-        const userData = await User.findOne({ id: context.user._id })
+        const userData = await User.findOne({ _id: context.user._id })
           .select("-__v -password")
           .populate("savedBooks");
         return userData;
@@ -17,11 +17,11 @@ const resolvers = {
 
   Mutation: {
     // login validation function
-    login: async (_, { email, password }) => {
+    login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       // check to see if this is the correct user
       if (!user) {
-        throw new AuthenticationError("This user is invalid");
+        throw new AuthenticationError("This email is invalid");
       }
       const correctPw = await user.isCorrectPassword(password);
       // check to see if this is the correct password
@@ -41,25 +41,25 @@ const resolvers = {
       return { token, user };
     },
     // save book to database and update
-    saveBook: async (_, { input }, context) => {
+    saveBook: async (parent, args, context) => {
       if (context.user) {
-        const bookMuForUser = await User.findOneAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { saveBook: input } },
+          { $addToSet: { saveBook: args } },
           { new: true, runValidators: true }
         );
-        return bookMuForUser;
+        return updatedUser;
       }
       throw new AuthenticationError("You must be logged in!");
     },
-    removeBook: async (_, { bookId }, context) => {
+    deleteBook: async (parent, { bookId }, context) => {
       if (context.user) {
-        const bookMuForUser = await User.findOneAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
           { $pull: { savedBooks: { bookId: bookId } } },
           { new: true }
         );
-        return bookMuForUser;
+        return updatedUser;
       }
       throw new AuthenticationError("You must be logged in!");
     },

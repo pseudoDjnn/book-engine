@@ -12,9 +12,9 @@ const typeDefs = gql`
   # Book params
   type Book {
     bookId: String
+    title: String
     authors: [String]
     description: String
-    title: String!
     image: String
     link: String
   }
@@ -33,14 +33,14 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     saveBook(
+      title: String!
       authors: [String]
       description: String!
       bookId: String!
       image: String
       link: String
-      title: String!
     ): User
-    removeBook(bookId: String): User
+    deleteBook(bookId: String!): User
   }
 `;
 
