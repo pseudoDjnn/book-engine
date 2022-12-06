@@ -2,9 +2,10 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 
-// import { loginUser } from '../utils/API';
+// import useMutation and LOGIN-USER
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
+
 import Auth from "../utils/auth";
 
 const LoginForm = () => {
@@ -12,7 +13,7 @@ const LoginForm = () => {
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  // reproduce created user and token with mutation
+  // declaring loginUser with useMutation
   const [loginUser, { error }] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
@@ -30,10 +31,12 @@ const LoginForm = () => {
       event.stopPropagation();
     }
 
+    // use loginUser function
     try {
       const { data } = await loginUser({
         variables: { ...userFormData },
       });
+
       Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
