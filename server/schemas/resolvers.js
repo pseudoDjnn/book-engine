@@ -4,7 +4,7 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    me: async (parent, args, context) => {
+    me: async (_, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select("-__v -password")
@@ -17,7 +17,7 @@ const resolvers = {
 
   Mutation: {
     // login validation function
-    login: async (parent, { email, password }) => {
+    login: async (_, { email, password }) => {
       const user = await User.findOne({ email });
       // check to see if this is the correct user
       if (!user) {
@@ -41,7 +41,7 @@ const resolvers = {
       return { token, user };
     },
     // save book to database and update
-    saveBook: async (parent, args, context) => {
+    saveBook: async (_, args, context) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -52,7 +52,7 @@ const resolvers = {
       }
       throw new AuthenticationError("You must be logged in!");
     },
-    deleteBook: async (parent, { bookId }, context) => {
+    deleteBook: async (_, { bookId }, context) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
