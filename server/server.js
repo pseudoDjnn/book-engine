@@ -20,12 +20,6 @@ const startServer = async () => {
   console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
 };
 
-// const server = new ApolloServer({
-//   typeDefs,
-//   resolvers,
-//   context: authMiddleware,
-// });
-
 startServer();
 
 const PORT = process.env.PORT || 3001;
@@ -39,26 +33,8 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
-// app.use(routes);
-
 db.once("open", () => {
   app.listen(PORT, () =>
     console.log(`🌍 Now listening on http://localhost:${PORT}`)
   );
 });
-
-// const startApolloServer = async (typeDefs, resolvers) => {
-//   await server.start();
-//   server.applyMiddleware({ app });
-
-//   db.once("open", () => {
-//     app.listen(PORT, () => {
-//       console.log(
-//         `Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`
-//       );
-//       console.log(`🌍 Now listening on http://localhost:${PORT}`);
-//     });
-//   });
-// };
-
-// startApolloServer(typeDefs, resolvers);
