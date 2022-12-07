@@ -17,6 +17,8 @@ A simple MERN Stack app that uses Google's Book API where a user can sign up, lo
 - [Questions](#questions)
 - [License](#license)
 
+![book_engine](https://user-images.githubusercontent.com/105378214/206023663-11e852db-de75-4027-ba3e-dc418728d7f6.png)
+
   ## Installation (Dependencies)
 
   To install dependencies, run:
